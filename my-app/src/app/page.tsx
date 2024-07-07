@@ -1,3 +1,4 @@
+"use client"
 import { User } from "@/components/Models";
 import ModeToggle from "@/components/Modetoggle";
 import Post from "@/components/Post";
@@ -37,9 +38,10 @@ export default function Home() {
   ];
 
   return (
-    <div className="  flex justify-between">
+    
+    <div className="flex justify-between">
       <Sidebar />
-      <div className=" my-2 w-fit ">
+      <div className=" my-2 w-fit ml-[140px] ">
         <StoryCarousel />
         <Post />
       </div>

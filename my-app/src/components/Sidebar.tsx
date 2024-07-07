@@ -13,8 +13,9 @@ import {
 
 const Sidebar = () => {
   return (
-   <div className="p-4 border border-zinc-500 w-fit h-screen">
-     <Instagram  className="my-10"/>
+   <div className="p-4 border border-zinc-500 w-[60px] h-screen fixed top-0 left-0 ">
+    <div className="">
+    <Instagram  className="my-10"/>
     <div className="gap-7  flex flex-col justify-between">
  
       <House />
@@ -25,6 +26,7 @@ const Sidebar = () => {
       <SquarePlus strokeWidth={1.5} />
       <CircleUser strokeWidth={1.5} />
       <AlignJustify strokeWidth={1.5} />
+    </div>
     </div>
    </div>
   );
