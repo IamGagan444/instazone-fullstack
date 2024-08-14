@@ -13,8 +13,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/login",
   },
   callbacks: {
-    signIn: async ({ user, account }) => {
-      console.log(user, account);
+    signIn: async ({ user, account ,profile}) => {
+      console.log(profile);
       if (account?.provider === "github" && account.access_token) {
         await connectDatabase();
         try {
@@ -23,7 +23,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!existingUser) {
             // Create a new user if they don't exist
             existingUser = await User.create({
-              user_name: user.name,
+              user_name: profile?.login,
               email: user.email,
               githubId: account.id,
             });

@@ -9,7 +9,7 @@ const Post = () => {
         <p className=" my-4">Suggested posts</p>
       <div className="flex space-x-2 items-center">
         <Image
-          src="http://res.cloudinary.com/gaganbro/image/upload/v1720003374/juffxcl29wdd7xdcqagk.jpg"
+          src="https://avatars.githubusercontent.com/u/112757838?v=4"
           width={40}
           height={40}
           alt="Picture of the author"
@@ -23,7 +23,7 @@ const Post = () => {
       </div>
     <Card className="my-4">
     <Image
-          src="http://res.cloudinary.com/gaganbro/image/upload/v1720003374/juffxcl29wdd7xdcqagk.jpg"
+          src="https://avatars.githubusercontent.com/u/112757838?v=4"
           width={400}
           height={400}
           alt="Picture of the author"

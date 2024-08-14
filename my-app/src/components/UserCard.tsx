@@ -21,7 +21,7 @@ function UserCard({ users }: AppProps) {
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-4">
           <Image
-            src="http://res.cloudinary.com/gaganbro/image/upload/v1720003374/juffxcl29wdd7xdcqagk.jpg"
+            src="https://avatars.githubusercontent.com/u/112757838?v=4"
             alt="profile"
             className="w-10 h-10 rounded-full"
             width={40}
