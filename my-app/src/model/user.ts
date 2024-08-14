@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 const userSchema = new Schema(
   {
@@ -8,7 +7,7 @@ const userSchema = new Schema(
       type: String,
       unique: true,
       trim: true,
-      // required: true,
+      required: true,
     },
     email: {
       type: String,
@@ -18,20 +17,24 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      trim: true,
+      // required: true,
     },
     avatar: {
       type: String,
-    
     },
-    bio:{
-      type:String
+    bio: {
+      type: String,
     },
-    refresh_token:{
-      type:String
-    }
+    refresh_token: {
+      type: String,
+    },
+    githubId: {
+      type: String,
+      unique: true,
+    },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 userSchema.pre("save", async function (next) {
@@ -42,54 +45,26 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.isCorrectPassword = async function (password) {
+userSchema.methods.isCorrectPassword = async function (password: string) {
   return bcrypt.compare(this.password, password);
 };
 
-userSchema.methods.generateRefreshToken = async function () {
-  return jwt.sign(
-    {
-      _id: this._id,
-      user_name: this.user_name,
-      email: this.email,
-    },
-    process.env.REFRESH_TOKEN,
-    {
-      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
-    },
-  );
-};
-
-userSchema.methods.generateAccessToken = async function () {
-  return jwt.sign(
-    {
-      _id: this._id,
-    },
-    process.env.ACCESS_TOKEN,
-    {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    },
-  );
-};
-
-export const User = mongoose.model("User", userSchema);
-
-
+export const User = mongoose.models?.User || mongoose.model("User", userSchema);
 
 // const fileFormat = (url: string): string => {
 //   const fileExtension = url.split(".").pop()?.toLowerCase();
 //   if (!fileExtension) return "file";
 
 //   if (
-//     fileExtension === "mp4" 
-//     fileExtension === "webm" 
+//     fileExtension === "mp4"
+//     fileExtension === "webm"
 //     fileExtension === "ogg"
 //   )
 //     return "video";
 //   if (
-//     fileExtension === "png" 
-//     fileExtension === "jpg" 
-//     fileExtension === "jpeg" 
+//     fileExtension === "png"
+//     fileExtension === "jpg"
+//     fileExtension === "jpeg"
 //     fileExtension === "gif"
 //   )
 //     return "image";

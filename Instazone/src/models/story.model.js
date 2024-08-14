@@ -6,7 +6,7 @@ const storySchema = new mongoose.Schema({
         ref:"User"
     },
     mediaUrl: String,
-    type:{
+    contentType:{
         type:String
         ,enum:["image","video"],
         required:true

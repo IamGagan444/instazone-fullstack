@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import { Car, Facebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,8 +13,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { usePostNewUserMutation } from "@/redux/InstaApi";
+
+interface NewUser {
+  email: string;
+  password: string;
+  user_name: string;
+}
 
 const Signup = () => {
+  const [credentials, setCredential] = React.useState<NewUser[]>([]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCredential((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const [postNewUser, { isLoading, isSuccess, isError, error }] =
+    usePostNewUserMutation();
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log(credentials);
+    try {
+      await postNewUser(credentials)
+      console.log("User logged in successfully!");
+    } catch (err) {
+      console.error("Failed to log in user: ", err);
+    }
+  };
   return (
     <div className=" h-screen flex justify-center items-center ">
       <div>
@@ -22,22 +51,40 @@ const Signup = () => {
             <CardTitle className=" text-center">Instagram</CardTitle>
           </CardHeader>
           <CardContent>
-            <form>
+            <form action={""} onSubmit={(e) => handleSubmit(e)}>
               <div className="grid w-full items-center gap-4">
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="name">Email</Label>
-                  <Input id="name" placeholder="Name of your project" />
+                  <Input
+                    id="name"
+                    placeholder="Email address"
+                    name="email"
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="framework">username</Label>
-                  <Input id="name" placeholder="Name of your project" />
+                  <Input
+                    id="name"
+                    placeholder="username"
+                    name="user_name"
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="framework">password</Label>
-                  <Input id="name" placeholder="Name of your project" />
+                  <Input
+                    id="name"
+                    placeholder="Password"
+                    name="password"
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
-              <Button className="bg-blue-500 w-full mt-4 text-white hover:text-black">
+              <Button
+                className="bg-blue-500 w-full mt-4 text-white hover:text-black"
+                type="submit"
+              >
                 Login
               </Button>
             </form>
@@ -67,6 +114,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
-
-
