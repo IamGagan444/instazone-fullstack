@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { usePostNewUserMutation } from "@/redux/InstaApi";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+
 interface NewUser {
     email: string;
     password: string;
@@ -12,7 +13,7 @@ interface NewUser {
   }
 const SignupForm = () => {
 
-    const router= useRouter
+    const router= useRouter()
     const [credentials, setCredential] = React.useState<NewUser[]>([]);
   
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

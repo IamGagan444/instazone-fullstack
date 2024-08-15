@@ -1,13 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import SingleUserCard from './SingleUserCard';
-import { AppProps } from './Models';
-import Image from 'next/image';
-import { Button } from './ui/button';
-
-
-
+import { useState } from "react";
+import SingleUserCard from "./SingleUserCard";
+import { AppProps } from "./Models";
+import Image from "next/image";
+import { Button } from "./ui/button";
+import { useGetAllPostsQuery } from "@/redux/InstaApi";
 
 function UserCard({ users }: AppProps) {
   const [following, setFollowing] = useState<string[]>([]);
@@ -16,8 +14,11 @@ function UserCard({ users }: AppProps) {
     setFollowing([...following, username]);
   };
 
+  
+ 
+
   return (
-    <div className="w-fit px-4 py-8">
+    <div className="  w-fit px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-4">
           <Image
@@ -26,12 +27,13 @@ function UserCard({ users }: AppProps) {
             className="w-10 h-10 rounded-full"
             width={40}
             height={20}
-            
           />
-          
+
           <h1 className="text-2xl font-bold">father_of_jesus08</h1>
         </div>
-        <Button variant="ghost" className="text-blue-500">Switch</Button>
+        <Button variant="ghost" className="text-blue-500">
+          Switch
+        </Button>
       </div>
       <div className="mb-8">
         <h2 className="text-xl font-bold mb-4">Suggested for you</h2>
@@ -48,17 +50,11 @@ function UserCard({ users }: AppProps) {
         <p className="text-gray-500">
           About · Help · Press · API · Jobs · Privacy · Terms ·
         </p>
-        <p className="text-gray-500">
-          Locations · Language · Meta Verified
-        </p>
-        <p className="text-gray-500">
-          © 2024 INSTAGRAM FROM META
-        </p>
+        <p className="text-gray-500">Locations · Language · Meta Verified</p>
+        <p className="text-gray-500">© 2024 INSTAGRAM FROM META</p>
       </div>
     </div>
   );
 }
-
-
 
 export default UserCard;

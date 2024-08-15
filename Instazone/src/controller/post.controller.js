@@ -48,7 +48,7 @@ const uploadReel = AsyncHandler(async (req, res, next) => {
   }
 
   return res.status(200).json(
-    new ApiResponse(200, " Video uploaded successfull ", {
+    new ApiResponse(200, " post uploaded successfull ", {
       data: uploadReel,
     }),
   );

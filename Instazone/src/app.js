@@ -6,7 +6,12 @@ import passport from './middlewares/passportConfig.js';
 
 export const app = express();
 
-app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
+app.use(cors({
+    origin: 'http://localhost:3000/',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }));
 app.use(express.static("public"));
 app.use(express.urlencoded({ limit: "16kb", extended: true }));
 app.use(express.json({ limit: "16kb" }));

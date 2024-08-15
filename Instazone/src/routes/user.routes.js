@@ -12,14 +12,6 @@ router.route("/logout").get(verifyUser,userLogout)
 router.route("/change-profile/:userId").post(upload.single("avatar"),changeProfile)
 router.route("/get-user-profile/:userId").get(getUserProfile)
 
-router.route('/auth/facebook').get( passport.authenticate('facebook', { scope: ['public_profile','email'] }));
-router.route('/auth/facebook/callback').get(function(){
-  passport.authenticate('facebook',{
-    successRedirect:"/",
-    failureRedirect:"/nothing-failure"
-    
-  })
-});
 
 router.route("/logout").get(function(req,res){
   req.logOut()
