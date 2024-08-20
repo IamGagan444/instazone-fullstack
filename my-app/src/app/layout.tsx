@@ -29,6 +29,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            
           </ThemeProvider>
         </ReduxProvider>
       </body>

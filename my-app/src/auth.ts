@@ -43,7 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             path: "/",
-            maxAge: 60 * 60, // 1 hour
+            maxAge: 60 * 60*24, // 1 hour
           });
           cookies().set("refreshToken", refreshToken, {
             httpOnly: true,

@@ -24,7 +24,7 @@ export default function SingleUserCard({
     <div className="flex items-center my-5 justify-between">
       <div className=" flex space-x-2">
         <Image
-          src={profileImage}
+          src={"https://avatars.githubusercontent.com/u/112757838?v=4"}
           alt={username}
           className="w-10 h-10 rounded-full"
           width={40}

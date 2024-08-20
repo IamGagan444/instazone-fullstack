@@ -14,11 +14,8 @@ function UserCard({ users }: AppProps) {
     setFollowing([...following, username]);
   };
 
-  
- 
-
   return (
-    <div className="  w-fit px-4 py-8">
+    <div className=" hidden lg:block w-fit px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-4">
           <Image

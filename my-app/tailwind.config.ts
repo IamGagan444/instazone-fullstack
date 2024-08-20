@@ -14,8 +14,18 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
-        "xl":"1100px"
+        sm: "640px",
+        cu600:"600px",
+        md: "768px",
+        sg: "900px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+        cu500: "500px",
+        cu300: "300px",
+        cu400: "400px",
+        cu800:"800px",
+        cu700:"700px"
       },
     },
     extend: {
@@ -78,4 +88,6 @@ const config = {
   plugins: [require("tailwindcss-animate")],
 } satisfies Config
 
-export default config
+export default config 
+
+  

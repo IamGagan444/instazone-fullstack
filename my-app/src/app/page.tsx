@@ -41,7 +41,7 @@ export default function Home() {
     
     <div className="flex justify-between">
       <Sidebar />
-      <div className=" my-2 w-fit ml-[140px] ">
+      <div className=" my-2 w-fit lg:ml-[140px] block mx-auto  ">
         <StoryCarousel />
         <Post />
       </div>
