@@ -4,6 +4,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useGetUserByIdQuery } from "@/redux/InstaApi";
 
 const ProfileBar = ({ params }: { params: { user_name: string } }) => {
   const user_name = params.user_name;
@@ -26,7 +27,10 @@ const ProfileBar = ({ params }: { params: { user_name: string } }) => {
       name: "saved",
     },
   ];
-
+  const {isLoading,data}=useGetUserByIdQuery(user_name,{
+    skip:!user_name
+  })
+console.log(data)
   return (
     <div className="my-16">
       {/* first two divs for reels part and profile*/}
