@@ -16,6 +16,7 @@ const AllPosts = AsyncHandler(async (req, res, next) => {
   if (!posts) {
     next(new ApiError(400, "no posts are available"));
   }
+  console.log("post",posts)
   return res.status(200).json(new ApiResponse(200,"data fetched successfully", posts));
 });
 

@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const connectDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI!, { dbName: "INSTAZONE" });
+    await mongoose.connect(process.env.MONGODB_URI!, { dbName: "INSTAZONE" });
     console.log("Database Connected");
   } catch (error) {
     console.log(error);

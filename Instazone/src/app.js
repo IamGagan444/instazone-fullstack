@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { ErrorMiddleware } from "./middlewares/Error.middleware.js";
-import passport from './middlewares/passportConfig.js'; 
 
 export const app = express();
 
@@ -27,14 +26,5 @@ app.use("/api", postRoutes);
 app.use("/api", likeRoutes);
 app.use("/api",commentRoutes)
 // app.use("/",homeRouter)
-
-passport.serializeUser(function(user,cb){
-    cb(null,user)
-})
-passport.deserializeUser(function(user,cb){
-    cb(null,user)
-})
-
-app.use(passport.initialize());
 
 app.use(ErrorMiddleware);

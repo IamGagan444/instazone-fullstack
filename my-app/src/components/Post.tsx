@@ -11,7 +11,7 @@ const Post = () => {
     skip: 0,
     limit: 10,
   });
-
+console.log("posts",posts);
   if (isLoading) {
     return <p>Loading...</p>;
   }

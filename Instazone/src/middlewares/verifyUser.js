@@ -3,11 +3,11 @@ import { ApiError } from "../utils/ApiError.js";
 import { AsyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 export const verifyUser = AsyncHandler(async (req, res, next) => {
-  console.log(req);
+
   const access_token =
     req.cookies.accessToken ||
-    req?.header("authorization")?.replace("Bearer", "");
-
+    req?.header("authorization")?.replace("Bearer", "")||req.cookies.authjs.session-token;
+console.log(access_token)
   if (!access_token) {
     next(new ApiError(400, "unauthorized user access", "/login"));
   }

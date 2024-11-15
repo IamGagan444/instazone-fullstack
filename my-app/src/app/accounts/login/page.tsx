@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Facebook } from "lucide-react";
+import { Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -50,9 +50,9 @@ const Login = async () => {
             >
               <Button
                 variant="outline"
-                className="bg-white w-full text-blue-700"
+                className="bg-white w-full text-black "
               >
-                Login with <Facebook strokeWidth={1} />
+                Login with <Github strokeWidth={1} className="mx-2" />
               </Button>
             </form>
             <Link href="/accounts/forgot-password">Forgot password</Link>

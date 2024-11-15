@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // const BASE_URL = "https://instagram-nrdh.onrender.com/api/";
-const BASE_URL = "http://localhost:4444/api/";
+const BASE_URL ="http://localhost:4000/api";
 
 export const InstaApis = createApi({
   reducerPath: "api",
