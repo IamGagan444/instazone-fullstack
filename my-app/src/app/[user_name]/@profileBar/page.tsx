@@ -64,7 +64,7 @@ if(isLoading) return "Loading..."
         <div className=" flex flex-col space-y-6">
           <div className="flex space-x-6 items-center">
             <h2>{profile?.user_name || "no_user_xx"}</h2>
-            <Button variant="secondary">Edit Profile</Button>
+           <Link href={"/accounts/edit"}> <Button variant="secondary">Edit Profile</Button></Link>
             <Button variant="secondary">View Archive</Button>
           </div>
           <div className="flex space-x-6 items-center">

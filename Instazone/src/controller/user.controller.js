@@ -245,7 +245,7 @@ const changePassword = AsyncHandler(async (req, res, next) => {
 
 const changeProfile = AsyncHandler(async (req, res, next) => {
   const { userId } = req.params;
-
+  const { user_name, bio, fullName } = req.body;
   const avatar = req.file.path;
 
   if (!userId) {
@@ -259,11 +259,14 @@ const changeProfile = AsyncHandler(async (req, res, next) => {
   const avatarPath = await uploadOndCloudinary(avatar);
   console.log("avatarPath:", avatarPath);
 
-  const user = await User.findByIdAndUpdate(
-    userId,
+  const user = await User.findOneAndUpdate(
+    { user_name: userId },
     {
       $set: {
-        avatar: avatarPath,
+        user_name,
+        bio,
+        fullName,
+        avatar,
       },
     },
     {
@@ -272,76 +275,74 @@ const changeProfile = AsyncHandler(async (req, res, next) => {
   );
 
   if (!user) {
-    next(new ApiError(400, "invalid user id", "/login"));
+    next(new ApiError(400, "invalid username", "/login"));
   }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "avtar changed successfully", avatarPath));
+    .json(new ApiResponse(200, "profile updated successfully", user));
 });
 
 const getUserProfile = AsyncHandler(async (req, res, next) => {
-  const { userId } =await req.params;
-  
+  const { userId } = await req.params;
+
   if (!userId) {
     next(new ApiError(400, "user id is required!"));
   }
 
+  // Perform aggregation
+  const profile = await User.aggregate([
+    {
+      $match: {
+        user_name: userId,
+      },
+    },
+    {
+      $lookup: {
+        from: "follows",
+        foreignField: "followerId",
+        localField: "_id",
+        as: "totalFollowers",
+      },
+    },
+    {
+      $lookup: {
+        from: "follows",
+        foreignField: "followingId",
+        localField: "_id",
+        as: "totalFollowing",
+      },
+    },
+    {
+      $lookup: {
+        from: "posts",
+        localField: "_id",
+        foreignField: "owner",
+        as: "posts",
+      },
+    },
+    {
+      $addFields: {
+        totalPosts: { $size: "$posts" }, // Calculate total posts
+      },
+    },
+    {
+      $project: {
+        posts: 1,
+        totalFollowers: 1,
+        totalFollowing: 1,
+        totalPosts: 1,
+        avatar: 1,
+        user_name: 1,
+        email: 1,
+        _id: 1,
+      },
+    },
+  ]);
 
-    // Perform aggregation
-    const profile = await User.aggregate([
-      {
-        $match: {
-          user_name:userId
-        },
-      },
-      {
-        $lookup: {
-          from: "follows",
-          foreignField: "followerId",
-          localField: "_id",
-          as: "totalFollowers",
-        },
-      },
-      {
-        $lookup: {
-          from: "follows",
-          foreignField: "followingId",
-          localField: "_id",
-          as: "totalFollowing",
-        },
-      },
-      {
-        $lookup: {
-          from: "posts",
-          localField: "_id",
-          foreignField: "owner",
-          as: "posts",
-        },
-      },
-      {
-        $addFields: {
-          totalPosts: { $size: "$posts" }, // Calculate total posts
-        },
-      },
-      {
-        $project: {
-          posts: 1,
-          totalFollowers: 1,
-          totalFollowing: 1,
-          totalPosts: 1,
-          avatar: 1,
-          user_name: 1,
-          email: 1,
-          _id: 1,
-        },
-      },
-    ]);
-
-if(!profile)
-{
-  next(new ApiError(400, "user not found"));
-}
+  if (!profile) {
+    next(new ApiError(400, "user not found"));
+  }
 
   return res
     .status(200)
