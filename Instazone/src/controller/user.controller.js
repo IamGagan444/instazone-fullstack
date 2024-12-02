@@ -116,7 +116,13 @@ const userLogin = AsyncHandler(async (req, res, next) => {
     .status(200)
     .cookie("accessToken", accessToken, options)
     .cookie("refresh_token", refresh_token, options)
-    .json(new ApiResponse(200, "user loggedin successfully", {user,accessToken,refresh_token}));
+    .json(
+      new ApiResponse(200, "user loggedin successfully", {
+        user,
+        accessToken,
+        refresh_token,
+      }),
+    );
 });
 
 const refreshAccessToken = AsyncHandler(async (req, res, next) => {
@@ -275,42 +281,68 @@ const changeProfile = AsyncHandler(async (req, res, next) => {
 });
 
 const getUserProfile = AsyncHandler(async (req, res, next) => {
-  const { userId } = req.params;
+  const { userId } =await req.params;
+  
   if (!userId) {
     next(new ApiError(400, "user id is required!"));
   }
 
-  const profile = await User.aggregate([
-    {
-      $match: {
-        _id: new mongoose.Types.ObjectId(userId),
+
+    // Perform aggregation
+    const profile = await User.aggregate([
+      {
+        $match: {
+          user_name:userId
+        },
       },
-    },
-    {
-      $lookup: {
-        from: "follows",
-        foreignField: "followerId",
-        localField: "_id",
-        as: "totalFollowers",
+      {
+        $lookup: {
+          from: "follows",
+          foreignField: "followerId",
+          localField: "_id",
+          as: "totalFollowers",
+        },
       },
-    },
-    {
-      $lookup: {
-        from: "follows",
-        foreignField: "followingId",
-        localField: "_id",
-        as: "totalFollowing",
+      {
+        $lookup: {
+          from: "follows",
+          foreignField: "followingId",
+          localField: "_id",
+          as: "totalFollowing",
+        },
       },
-    },
-    {
-      $lookup: {
-        from: "reels",
-        foreignField: "videoFile",
-        localField: "allReels",
-        as: "allReels",
+      {
+        $lookup: {
+          from: "posts",
+          localField: "_id",
+          foreignField: "owner",
+          as: "posts",
+        },
       },
-    },
-  ]);
+      {
+        $addFields: {
+          totalPosts: { $size: "$posts" }, // Calculate total posts
+        },
+      },
+      {
+        $project: {
+          posts: 1,
+          totalFollowers: 1,
+          totalFollowing: 1,
+          totalPosts: 1,
+          avatar: 1,
+          user_name: 1,
+          email: 1,
+          _id: 1,
+        },
+      },
+    ]);
+
+if(!profile)
+{
+  next(new ApiError(400, "user not found"));
+}
+
   return res
     .status(200)
     .json(new ApiResponse(200, "profile fetched successfully", profile));

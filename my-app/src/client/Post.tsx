@@ -1,24 +1,13 @@
 import Image from "next/image";
 import React from "react";
-import { Button } from "./ui/button";
-import { Card } from "./ui/card";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
 import { useGetAllPostsQuery } from "@/redux/InstaApi";
 import { CircleUser } from "lucide-react";
 import VideoComponent from "./VideoComponent";
 
-const Post = () => {
-  const { data: posts, error, isLoading } = useGetAllPostsQuery({
-    skip: 0,
-    limit: 10,
-  });
-console.log("posts",posts);
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+const Post = ({posts}:{posts:any}) => {
 
-  if (error) {
-    return <p>Error loading posts: {error.message}</p>;
-  }
 
   return (
     <div className="space-y-8 mt-14">

@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
-
 import Cookie from "js-cookie";
-
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,8 +8,8 @@ import { useLoginUserMutation } from "@/redux/InstaApi";
 // import { redirect } from 'next/navigation';
 import { useRouter } from "next/navigation";
 const Loginform = () => {
+  
   const router = useRouter();
-
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
 
@@ -31,7 +29,7 @@ const Loginform = () => {
     try {
       const data = await loginUser({ email, password }).unwrap();
       console.log(data.data);
-      Cookie.set("accessToken", data?.data?.accessToken, { expires: 1 });
+      Cookie.set("accessToken", data?.data?.accessToken,{ expires: 1 });
       //set the data in cookies
       router.push("/");
       console.log("User logged in successfully!");

@@ -1,11 +1,14 @@
-import React from 'react'
+import React from "react";
 
 const Reels = () => {
   return (
-    <div>this is reels page
-      
+    <div>
+      {" "}
+      <p className="text-center capitalize font-semibold my-20">
+        You have't Saved anything
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default Reels
+export default Reels;

@@ -6,7 +6,7 @@ export const verifyUser = AsyncHandler(async (req, res, next) => {
 
   const access_token =
     req.cookies.accessToken ||
-    req?.header("authorization")?.replace("Bearer", "")||req.cookies.authjs.session-token;
+    req?.header("authorization")?.replace("Bearer", "")
 console.log(access_token)
   if (!access_token) {
     next(new ApiError(400, "unauthorized user access", "/login"));

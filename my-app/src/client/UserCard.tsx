@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import SingleUserCard from "./SingleUserCard";
-import { AppProps } from "./Models";
+import { AppProps } from "../types/Models";
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "../components/ui/button";
 import { useGetAllPostsQuery } from "@/redux/InstaApi";
 
 function UserCard({ users }: AppProps) {

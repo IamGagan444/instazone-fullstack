@@ -9,8 +9,8 @@ const router = Router();
 router.route("/user-registration").post(upload.single("avatar"), userRegister);
 router.route("/user-login").post(upload.none(),userLogin);
 router.route("/logout").get(verifyUser,userLogout)
-router.route("/change-profile/:userId").post(upload.single("avatar"),changeProfile)
-router.route("/get-user-profile/:userId").get(getUserProfile)
+router.route("/change-profile/:userId").post(verifyUser,upload.single("avatar"),changeProfile)
+router.route("/get-user-profile/:userId").get(verifyUser,getUserProfile)
 
 
 router.route("/logout").get(function(req,res){

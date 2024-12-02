@@ -1,19 +1,23 @@
-"use client"
-import React, { useEffect, useRef } from 'react';
+"use client";
+import React, { useEffect, useRef } from "react";
 
-const VideoComponent = ({ src }) => {
-  const videoRef = useRef(null);
+interface VideoComponentProps {
+  src: string;
+}
+
+const VideoComponent: React.FC<VideoComponentProps> = ({ src }) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          videoRef.current.play();
+          videoRef.current?.play();
         } else {
-          videoRef.current.pause();
+          videoRef.current?.pause();
         }
       },
-      { threshold: 0.5 } // Adjust the threshold as needed
+      { threshold: 0.5 } 
     );
 
     if (videoRef.current) {
@@ -36,15 +40,10 @@ const VideoComponent = ({ src }) => {
       autoPlay
       loop
       muted // Consider muting for autoplay
-      className='w-full h-[470px] object-cover rounded-t-none'
+      className="w-full h-[470px] object-cover rounded-t-none"
     >
       <source src={src} type="video/mp4" />
-      <track
-        src={src}
-        kind="subtitles"
-        srcLang="en"
-        label="English"
-      />
+      <track src={src} kind="subtitles" srcLang="en" label="English" />
     </video>
   );
 };
