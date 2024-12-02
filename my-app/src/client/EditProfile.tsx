@@ -22,7 +22,7 @@ const formSchema = z.object({
 });
 
 const EditProfile = () => {
-    
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,7 +56,7 @@ const EditProfile = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" className="w-full">Submit</Button>
         </form>
       </Form>
     </div>
