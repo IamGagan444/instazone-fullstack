@@ -15,7 +15,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useChangeUserInfoMutation } from "@/redux/InstaApi";
+import {
+  useChangeUserInfoMutation,
+  useGetUserByIdQuery,
+} from "@/redux/InstaApi";
 
 const formSchema = z.object({
   username: z
@@ -26,32 +29,57 @@ const formSchema = z.object({
     .regex(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gim),
   bio: z.string(),
   fullName: z.string().min(2, "Fullname must be at leat 2 charectors"),
-
 });
 
+import { useEffect } from "react";
+import { redirect } from "next/navigation";
+
 const EditProfile = ({ session }: any) => {
-  
   const githubprofile = session?.user?.githubProfile;
-//instead of githubprofile data use api data
+
+  // Fetch user data
+  const { isLoading: loading, data } = useGetUserByIdQuery(
+    githubprofile?.login,
+    {
+      skip: !githubprofile?.login,
+    }
+  );
+
+  const profile = data?.data[0];
+
+  // Initialize the form with react-hook-form and zodResolver
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: githubprofile?.login || "",
-      bio: githubprofile,
-      fullName: githubprofile?.name,
-    
+      username: "", // Start with empty strings as defaults
+      bio: "",
+      fullName: "",
     },
   });
-  const [changeUser,{isLoading,isError}]=useChangeUserInfoMutation()
 
+  const [changeUser, { isLoading, isError }] = useChangeUserInfoMutation();
+
+  // Update form values when profile data is available
+  useEffect(() => {
+    if (profile) {
+      form.reset({
+        username: profile?.user_name || "",
+        bio: profile?.bio || "",
+        fullName: profile?.fullName || "",
+      });
+    }
+  }, [profile, form]);
+
+  // Handle form submission
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
     try {
-      const response= await changeUser({...values,userId:githubprofile?.login})
-      console.log(response)
-      
+      const response = await changeUser({
+        ...values,
+        userId: githubprofile?.login,
+      });
+      window.location.href = `/${profile?.user_name}`;
     } catch (error) {
-      console.log(error,"error at edit profile")
+      console.log(error, "error at edit profile");
     }
   }
 
@@ -68,7 +96,6 @@ const EditProfile = ({ session }: any) => {
                 <FormControl>
                   <Input placeholder="Full name" {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
@@ -82,7 +109,6 @@ const EditProfile = ({ session }: any) => {
                 <FormControl>
                   <Input placeholder="Username" {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
@@ -96,14 +122,13 @@ const EditProfile = ({ session }: any) => {
                 <FormControl>
                   <Textarea placeholder="Bio" {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="w-full">
-            Save Changes
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Saving..." : "Save Changes"}
           </Button>
         </form>
       </Form>

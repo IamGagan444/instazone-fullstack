@@ -62,7 +62,7 @@ const Sidebar = async() => {
     {
       name: "Profile",
       icon: <CircleUser strokeWidth={1.5} />,
-      href: `${githubProfile?.login}`,
+      href: `/${githubProfile?.login}`,
     },
     {
       name: "More",
