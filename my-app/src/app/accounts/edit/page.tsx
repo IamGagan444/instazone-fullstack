@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Settings } from "lucide-react";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import ChangeProfile from "@/client/ChangeProfile";
 
 const page = async() => {
   const session = await auth();
@@ -18,8 +19,8 @@ const page = async() => {
   //   return redirect("/accounts/login");
   // }
   return (
-    <div className="h-screen flex justify-center items-center">
-      <div>
+    <div className="flex justify-center items-center">
+      <div className="my-10">
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle className=" flex items-center justify-center">
@@ -27,6 +28,7 @@ const page = async() => {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <ChangeProfile session={session} />
             <EditProfile session={session}/>
           </CardContent>
         </Card>

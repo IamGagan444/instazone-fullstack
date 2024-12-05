@@ -28,11 +28,10 @@ const formSchema = z.object({
     })
     .regex(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gim),
   bio: z.string(),
-  fullName: z.string().min(2, "Fullname must be at leat 2 charectors"),
+  fullName: z.string().min(2, "Fullname must be at least 2 characters"),
 });
 
 import { useEffect } from "react";
-import { redirect } from "next/navigation";
 
 const EditProfile = ({ session }: any) => {
   const githubprofile = session?.user?.githubProfile;
@@ -51,7 +50,7 @@ const EditProfile = ({ session }: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "", // Start with empty strings as defaults
+      username: "",
       bio: "",
       fullName: "",
     },
@@ -127,7 +126,11 @@ const EditProfile = ({ session }: any) => {
             )}
           />
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={!form.formState.isDirty || isLoading}
+          >
             {isLoading ? "Saving..." : "Save Changes"}
           </Button>
         </form>
