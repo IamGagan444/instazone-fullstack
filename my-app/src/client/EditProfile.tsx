@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useChangeUserInfoMutation } from "@/redux/InstaApi";
 
 const formSchema = z.object({
   username: z
@@ -25,25 +26,33 @@ const formSchema = z.object({
     .regex(/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/gim),
   bio: z.string(),
   fullName: z.string().min(2, "Fullname must be at leat 2 charectors"),
-  avatar: z.string(),
+
 });
 
 const EditProfile = ({ session }: any) => {
   
   const githubprofile = session?.user?.githubProfile;
-
+//instead of githubprofile data use api data
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: githubprofile?.login || "",
-      bio: "",
+      bio: githubprofile,
       fullName: githubprofile?.name,
-      avatar: githubprofile?.avatar_url,
+    
     },
   });
+  const [changeUser,{isLoading,isError}]=useChangeUserInfoMutation()
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    try {
+      const response= await changeUser({...values,userId:githubprofile?.login})
+      console.log(response)
+      
+    } catch (error) {
+      console.log(error,"error at edit profile")
+    }
   }
 
   return (
@@ -94,7 +103,7 @@ const EditProfile = ({ session }: any) => {
           />
 
           <Button type="submit" className="w-full">
-            Submit
+            Save Changes
           </Button>
         </form>
       </Form>

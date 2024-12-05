@@ -243,9 +243,9 @@ const changePassword = AsyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, "password changed successfully"));
 });
 
-const changeProfile = AsyncHandler(async (req, res, next) => {
-  const { userId } = req.params;
-  const { user_name, bio, fullName } = req.body;
+const changeProfile=AsyncHandler(async(req,res,next)=>{
+  const { userId } = req.body;
+
   const avatar = req.file.path;
 
   if (!userId) {
@@ -263,10 +263,41 @@ const changeProfile = AsyncHandler(async (req, res, next) => {
     { user_name: userId },
     {
       $set: {
+      
+        avatar:avatarPath,
+      },
+    },
+    {
+      new: true,
+    },
+  );
+
+  if (!user) {
+    next(new ApiError(400, "invalid username", "/login"));
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "profile pic changed successfully", user));
+})
+
+const changeProfileInfo = AsyncHandler(async (req, res, next) => {
+
+  const { user_name, bio, fullName,userId } = req.body;
+
+
+  if (!userId) {
+    next(new ApiError(400, "user id is required"));
+  }
+
+
+  const user = await User.findOneAndUpdate(
+    { user_name: userId },
+    {
+      $set: {
         user_name,
         bio,
         fullName,
-        avatar,
       },
     },
     {
@@ -335,7 +366,10 @@ const getUserProfile = AsyncHandler(async (req, res, next) => {
         avatar: 1,
         user_name: 1,
         email: 1,
-        _id: 1,
+        _id:1,
+        bio:1,
+        fullName:1
+        
       },
     },
   ]);
@@ -356,4 +390,5 @@ export {
   changePassword,
   changeProfile,
   getUserProfile,
+  changeProfileInfo
 };

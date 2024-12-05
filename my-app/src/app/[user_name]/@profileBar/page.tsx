@@ -78,7 +78,8 @@ if(isLoading) return "Loading..."
             <p>{profile?.totalFollowing.length} following</p>
           </div>
           <div className="">
-            <p className="text-sm"></p>
+            <p className="text-sm">{profile?.fullName} </p>
+            <p className="text-sm">{profile?.bio} </p>
           </div>
         </div>
       </div>
