@@ -11,6 +11,22 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }));
+
+  // app.use(cors({
+  //   origin: (origin, callback) => {
+  //     // Allow requests from your dev tunnel URL
+  //     const allowedOrigins = ['https://1h2qj3x1-3000.inc1.devtunnels.ms'];
+  //     if (!origin || allowedOrigins.includes(origin)) {
+  //       callback(null, true);
+  //     } else {
+  //       callback(new Error('Not allowed by CORS'));
+  //     }
+  //   },
+  //   credentials: true,
+  //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  //   allowedHeaders: ['Content-Type', 'Authorization'],
+  // }));
+  
 app.use(express.static("public"));
 app.use(express.urlencoded({ limit: "16kb", extended: true }));
 app.use(express.json({ limit: "16kb" }));

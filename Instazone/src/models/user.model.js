@@ -9,6 +9,7 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
       required: true,
+      RegExp:/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/igm
     },
     fullName:{
       type: String,

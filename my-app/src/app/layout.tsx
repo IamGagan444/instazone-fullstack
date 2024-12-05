@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head />
-      <body className=" " >
+      <body className=" ">
         <ReduxProvider>
           <ThemeProvider
             attribute="class"
@@ -30,18 +30,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-          
             <div className="">
-            <Sidebar/>
+              <Sidebar />
             </div>
-           <SessionProvider>
-
-           <div className="ml-[60px]">
-            {children}
-            </div>
-           </SessionProvider>
-            
-            
+            <SessionProvider>
+              <div className="ml-[60px]">{children}</div>
+            </SessionProvider>
           </ThemeProvider>
         </ReduxProvider>
       </body>

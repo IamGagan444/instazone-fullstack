@@ -24,9 +24,9 @@ const Sidebar = async() => {
 
   const githubProfile = session?.user?.githubProfile
 
-  if (!githubProfile) {
-    return <div>GitHub profile information not available</div>
-  }
+  // if (!githubProfile) {
+  //   return <div>GitHub profile information not available</div>
+  // }
 
   const sideData = [
     {
@@ -62,7 +62,7 @@ const Sidebar = async() => {
     {
       name: "Profile",
       icon: <CircleUser strokeWidth={1.5} />,
-      href: `${githubProfile.login}`,
+      href: `${githubProfile?.login}`,
     },
     {
       name: "More",
