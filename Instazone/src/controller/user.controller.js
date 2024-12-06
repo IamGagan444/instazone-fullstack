@@ -245,8 +245,9 @@ const changePassword = AsyncHandler(async (req, res, next) => {
 
 const changeProfile=AsyncHandler(async(req,res,next)=>{
   const { userId } = req.body;
-
+  
   const avatar = req.file.path;
+  console.log("credential:",avatar,userId)
 
   if (!userId) {
     next(new ApiError(400, "user id is required"));
@@ -258,12 +259,14 @@ const changeProfile=AsyncHandler(async(req,res,next)=>{
 
   const avatarPath = await uploadOndCloudinary(avatar);
   console.log("avatarPath:", avatarPath);
+  if(!avatarPath){
+    next(new ApiError(500,"internal server error"))
+  }
 
   const user = await User.findOneAndUpdate(
     { user_name: userId },
     {
-      $set: {
-      
+      $set: {   
         avatar:avatarPath,
       },
     },
@@ -278,7 +281,7 @@ const changeProfile=AsyncHandler(async(req,res,next)=>{
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "profile pic changed successfully", user));
+    .json(new ApiResponse(200, "profile pic changed successfully", avatarPath));
 })
 
 const changeProfileInfo = AsyncHandler(async (req, res, next) => {

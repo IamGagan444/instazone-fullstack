@@ -37,6 +37,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               user_name: profile?.login,
               email: user.email,
               githubId: account.id,
+              avatar:user.image,
+              fullName:user.name
             });
           } else {
             existingUser.githubId = account.id?.toString();

@@ -4,7 +4,7 @@ import { connectDB } from "./db/connectdb.js"
 import { app } from "./app.js"
 
 connectDB().then(()=>{
-app.listen(process.env.PORT||4444,()=>{
+app.listen(process.env.PORT||4000,()=>{
     console.log("your app is listening at port number 4444")
 })
 }).catch(()=>{

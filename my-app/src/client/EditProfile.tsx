@@ -32,6 +32,7 @@ const formSchema = z.object({
 });
 
 import { useEffect } from "react";
+import ChangeProfile from "./ChangeProfile";
 
 const EditProfile = ({ session }: any) => {
   const githubprofile = session?.user?.githubProfile;
@@ -84,6 +85,8 @@ const EditProfile = ({ session }: any) => {
 
   return (
     <div>
+      <ChangeProfile profile={profile} />
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField

@@ -59,7 +59,7 @@ const ProfileBar = ({ params }: { params: { user_name: string } }) => {
       {/* first two divs for reels part and profile*/}
       <div className="mx-auto w-[650px] p-2 flex space-x-14 ">
         <Image
-          src={"https://avatars.githubusercontent.com/u/112757838?v=4"}
+          src={profile?.avatar}
           alt=""
           width={200}
           height={100}
@@ -87,7 +87,7 @@ const ProfileBar = ({ params }: { params: { user_name: string } }) => {
           <div className="">
             <p className="text-sm">{profile?.fullName} </p>
             <p className="text-sm">
-              {profile?.bio.split("\n").map((line: string, index: number) => (
+              {profile?.bio?.split("\n")?.map((line: string, index: number) => (
                 <span key={index}>
                   {line}
                   <br />

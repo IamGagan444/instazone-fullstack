@@ -28,7 +28,7 @@ const page = async() => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ChangeProfile session={session} />
+            
             <EditProfile session={session}/>
           </CardContent>
         </Card>
