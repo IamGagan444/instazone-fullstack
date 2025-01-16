@@ -30,41 +30,36 @@ const ChangeProfile: React.FC<ChangeProfileProps> = ({ profile }) => {
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    
+    console.log("file selected:", file); // Log file to check if it exists
+  
     if (file) {
       try {
-        // Compress the image
-        const options = {
-          maxSizeMB: 1,
-          maxWidthOrHeight: 1920,
-          useWebWorker: true,
-        };
-        const compressedFile = await imageCompression(file, options);
-
-        // Create a preview of the compressed image
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setPreviewImage(e.target?.result as string);
-        };
-        reader.readAsDataURL(compressedFile);
-
-        // Prepare form data
         const formData = new FormData();
-        formData.append('avatar', compressedFile, compressedFile.name);
-        formData.append('userId', profile?.user_name || "");
-
-        // Send the request
-        const response = await changePic(formData).unwrap();
+        formData.append("avatar", file);
+        formData.append("userId", profile?.user_name || "");
+  
+        // Log FormData contents using entries()
+        for (let pair of formData.entries()) {
+          console.log(pair[0] + ': ' + pair[1]);
+        }
+  
+        // You could also log the formData size or content more explicitly if needed
+        console.log("FormData contents:");
+        Array.from(formData.entries()).forEach(([key, value]) => {
+          console.log(`${key}:`, value);
+        });
+  
+        // Send the FormData to the API
+        const response = await changePic(formData);  // Ensure API can handle FormData
         console.log('Upload successful:', response);
-
-        // You might want to update the profile avatar here if the API returns the new URL
-        // setPreviewImage(response.newAvatarUrl);
       } catch (error) {
-        console.error('Error uploading image:', error);
-        // You might want to show an error message to the user here
+        console.log('Error uploading file:', error);
       }
+    } else {
+      console.log("No file selected");
     }
   };
+  
 
   const avatarSrc = previewImage || profile?.avatar || "/placeholder.svg";
 

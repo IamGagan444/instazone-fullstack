@@ -246,7 +246,7 @@ const changePassword = AsyncHandler(async (req, res, next) => {
 const changeProfile=AsyncHandler(async(req,res,next)=>{
   const { userId } = req.body;
   
-  const avatar = req.file.path;
+  const avatar = req.file;
   console.log("credential:",avatar,userId)
 
   if (!userId) {
